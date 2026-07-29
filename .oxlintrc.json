@@ -1,7 +1,12 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["typescript", "nextjs", "promise"],
+  "plugins": ["typescript", "react", "react-perf", "import", "jsdoc", "nextjs", "promise"],
   "categories": {},
+  "options": {
+    "typeAware": true,
+    "typeCheck": true
+  },
+  "ignorePatterns": ["dist/**", "build/**", ".next/**", "test/snapshots/**"],
   "rules": {
     "typescript/no-explicit-any": "error",
     "typescript/await-thenable": "error",
@@ -51,18 +56,13 @@
     "typescript/use-unknown-in-catch-callback-variable": "error"
   },
   "settings": {
-    "jsx-a11y": {
-      "polymorphicPropName": null,
-      "components": {},
-      "attributes": {}
-    },
     "next": {
       "rootDir": []
     },
     "react": {
       "formComponents": [],
       "linkComponents": [],
-      "version": null,
+      "version": "19.2.3",
       "componentWrapperFunctions": []
     },
     "jsdoc": {
@@ -82,6 +82,5 @@
   "env": {
     "builtin": true
   },
-  "globals": {},
-  "ignorePatterns": []
+  "globals": {}
 }
