@@ -1,19 +1,14 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Noto_Sans, Playfair_Display } from "next/font/google";
 
+import { cn } from "@/lib/utils";
 import Lenis from "./components/Lenis";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const playfairDisplayHeading = Playfair_Display({ subsets: ["latin"], variable: "--font-heading" });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const notoSans = Noto_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -30,8 +25,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} h-500 antialiased`}>
+    <html
+      lang="en"
+      className={cn("font-sans", notoSans.variable, playfairDisplayHeading.variable, "antialiased")}
+    >
+      <body className={`h-500 bg-black`}>
         <Lenis>{children}</Lenis>
       </body>
     </html>
