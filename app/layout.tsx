@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Noto_Sans, Playfair_Display } from "next/font/google";
 
 import { cn } from "@/lib/utils";
-import Lenis from "./components/Lenis";
+import { Providers } from "./lib/providers";
 
 const playfairDisplayHeading = Playfair_Display({ subsets: ["latin"], variable: "--font-heading" });
 
@@ -27,10 +27,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("font-sans", notoSans.variable, playfairDisplayHeading.variable, "antialiased")}
+      suppressHydrationWarning
+      className={cn(
+        "font-sans",
+        notoSans.variable,
+        playfairDisplayHeading.variable,
+        "min-h-screen bg-background font-sans text-foreground antialiased",
+      )}
     >
       <body className={`h-500 bg-black`}>
-        <Lenis>{children}</Lenis>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
