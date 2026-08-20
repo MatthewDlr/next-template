@@ -7,10 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "oxlint",
-    "lint:agents": "oxlint --format=agent",
+    "lint:agent": "oxlint --format=agent",
     "lint:fix": "oxlint --fix --fix-suggestions",
     "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check"
+    "fmt:check": "oxfmt --check",
+    "test": "vitest",
+    "test:agent": "vitest run --reporter=agent"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
