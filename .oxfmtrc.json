@@ -9,15 +9,34 @@
   "arrowParens": "avoid",
   "bracketSameLine": false,
   "trailingComma": "all",
-  "ignorePatterns": [],
+  "ignorePatterns": [
+    "node_modules",
+    ".next",
+    "out",
+    "build",
+    "coverage",
+    "next-env.d.ts",
+    ".env*.local"
+  ],
   "sortImports": {
     "groups": [
       "type-import",
-      ["value-builtin", "value-external"],
+      [
+        "value-builtin",
+        "value-external"
+      ],
       "type-internal",
       "value-internal",
-      ["type-parent", "type-sibling", "type-index"],
-      ["value-parent", "value-sibling", "value-index"],
+      [
+        "type-parent",
+        "type-sibling",
+        "type-index"
+      ],
+      [
+        "value-parent",
+        "value-sibling",
+        "value-index"
+      ],
       "unknown"
     ]
   },
@@ -27,8 +46,16 @@
   },
   "sortTailwindcss": {
     "stylesheet": "./app/globals.css",
-    "attributes": ["class", "className"],
-    "functions": ["clsx", "cn"],
+    "attributes": [
+      "class",
+      "className"
+    ],
+    "functions": [
+      "clsx",
+      "cn",
+      "cva",
+      "tw"
+    ],
     "preserveWhitespace": true
   }
 }

@@ -1,12 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // React Compiler: https://nextjs.org/docs/app/api-reference/config/next-config-js/reactCompiler
   reactCompiler: true,
-  /* New PPR cache components. https://nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents */
+  // Enabling PPR & Cache Components: https://nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents
   cacheComponents: true,
   experimental: {
-    useTypeScriptCli: true,
+    useTypeScriptCli: true, // TypeScript 7.0 CLI for native speed
   },
 };
 

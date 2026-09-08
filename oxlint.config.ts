@@ -1,13 +1,26 @@
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["typescript", "react", "react-perf", "import", "jsdoc", "nextjs", "promise"],
-  "categories": {},
-  "options": {
-    "typeAware": true,
-    "typeCheck": true
+import { defineConfig } from "oxlint";
+
+export default defineConfig({
+  plugins: ["typescript", "react", "react-perf", "import", "jsdoc", "nextjs", "promise"],
+
+  categories: {},
+  options: {
+    typeAware: true,
+    typeCheck: true,
   },
-  "ignorePatterns": ["dist/**", "build/**", ".next/**", "test/snapshots/**"],
-  "rules": {
+  ignorePatterns: ["dist/**", "build/**", ".next/**", "test/snapshots/**"],
+  rules: {
+    // Auto remove unused imports
+    "eslint/no-unused-vars": [
+      "error",
+      {
+        fix: {
+          imports: "fix",
+        },
+      },
+    ],
+    "no-throw-literal": "error", // Stop native throws to enforce the neverthrow pattern
+
     "typescript/no-explicit-any": "error",
     "typescript/await-thenable": "error",
     "typescript/no-array-delete": "error",
@@ -53,34 +66,34 @@
     "typescript/strict-boolean-expressions": "error",
     "typescript/switch-exhaustiveness-check": "error",
     "typescript/unbound-method": "error",
-    "typescript/use-unknown-in-catch-callback-variable": "error"
+    "typescript/use-unknown-in-catch-callback-variable": "error",
   },
-  "settings": {
-    "next": {
-      "rootDir": []
+  settings: {
+    next: {
+      rootDir: [],
     },
-    "react": {
-      "formComponents": [],
-      "linkComponents": [],
-      "version": "19.2.3",
-      "componentWrapperFunctions": []
+    react: {
+      formComponents: [],
+      linkComponents: [],
+      version: "19.2.3",
+      componentWrapperFunctions: [],
     },
-    "jsdoc": {
-      "ignorePrivate": false,
-      "ignoreInternal": false,
-      "ignoreReplacesDocs": true,
-      "overrideReplacesDocs": true,
-      "augmentsExtendsReplacesDocs": false,
-      "implementsReplacesDocs": false,
-      "exemptDestructuredRootsFromChecks": false,
-      "tagNamePreference": {}
+    jsdoc: {
+      ignorePrivate: false,
+      ignoreInternal: false,
+      ignoreReplacesDocs: true,
+      overrideReplacesDocs: true,
+      augmentsExtendsReplacesDocs: false,
+      implementsReplacesDocs: false,
+      exemptDestructuredRootsFromChecks: false,
+      tagNamePreference: {},
     },
-    "vitest": {
-      "typecheck": false
-    }
+    vitest: {
+      typecheck: false,
+    },
   },
-  "env": {
-    "builtin": true
+  env: {
+    builtin: true,
   },
-  "globals": {}
-}
+  globals: {},
+});
