@@ -1,15 +1,64 @@
 import { defineConfig } from "oxlint";
 
 export default defineConfig({
-  plugins: ["typescript", "react", "react-perf", "import", "jsdoc", "nextjs", "promise"],
-
-  categories: {},
+  categories: {
+    correctness: "error",
+    pedantic: "off",
+    perf: "warn",
+    style: "off",
+    suspicious: "warn",
+  },
+  env: {
+    browser: true, // Enables web API globals (window, document, fetch)
+    builtin: true, // Enables standard JavaScript core globals (Promise, Map, etc.)
+    node: true, // Enables Node environment globals (process)
+  },
+  globals: {},
+  ignorePatterns: [
+    "dist/**",
+    "build/**",
+    ".next/**",
+    "snapshots/**",
+    "__screenshots__/**",
+    ".next/**",
+    "node_modules/**",
+    "out/**",
+    "next.config.js",
+    "next.config.ts",
+  ],
   options: {
     typeAware: true,
     typeCheck: true,
   },
-  ignorePatterns: ["dist/**", "build/**", ".next/**", "test/snapshots/**"],
+  plugins: ["typescript", "react", "react-perf", "nextjs", "vitest", "import"],
   rules: {
+    // Enforce App Router usage and prevent Pages Router usage
+    "eslint/no-restricted-imports": [
+      "error",
+      {
+        paths: [
+          {
+            message: "Pages Router API. Use `useRouter` from `next/navigation` instead.",
+            name: "next/router",
+          },
+          { message: "Pages Router API. Use `app/layout.tsx` instead.", name: "next/document" },
+          {
+            message: "Pages Router API. Use the Metadata API (`export const metadata`) instead.",
+            name: "next/head",
+          },
+          {
+            message: "Pages Router API (`AppProps`/`_app`). App Router has no custom App.",
+            name: "next/app",
+          },
+          {
+            message: "Pages Router API. Use `app/error.tsx` or `app/not-found.tsx` instead.",
+            name: "next/error",
+          },
+          { message: "Pages Router API. Not supported in App Router.", name: "next/amp" },
+        ],
+      },
+    ],
+
     // Auto remove unused imports
     "eslint/no-unused-vars": [
       "error",
@@ -19,81 +68,36 @@ export default defineConfig({
         },
       },
     ],
+
     "no-throw-literal": "error", // Stop native throws to enforce the neverthrow pattern
 
-    "typescript/no-explicit-any": "error",
-    "typescript/await-thenable": "error",
-    "typescript/no-array-delete": "error",
-    "typescript/no-base-to-string": "error",
-    "typescript/no-confusing-void-expression": "error",
-    "typescript/no-deprecated": "error",
-    "typescript/no-duplicate-type-constituents": "error",
-    "typescript/no-floating-promises": "error",
-    "typescript/no-for-in-array": "error",
-    "typescript/no-implied-eval": "error",
-    "typescript/no-meaningless-void-operator": "error",
-    "typescript/no-misused-promises": "error",
-    "typescript/no-misused-spread": "error",
-    "typescript/no-mixed-enums": "error",
-    "typescript/no-redundant-type-constituents": "error",
-    "typescript/no-unnecessary-boolean-literal-compare": "error",
-    "typescript/no-unnecessary-template-expression": "error",
-    "typescript/no-unnecessary-type-arguments": "error",
-    "typescript/no-unnecessary-type-assertion": "error",
-    "typescript/no-unsafe-argument": "error",
-    "typescript/no-unsafe-assignment": "error",
-    "typescript/no-unsafe-call": "error",
-    "typescript/no-unsafe-enum-comparison": "error",
-    "typescript/no-unsafe-member-access": "error",
-    "typescript/no-unsafe-return": "error",
-    "typescript/no-unsafe-type-assertion": "error",
-    "typescript/no-unsafe-unary-minus": "error",
-    "typescript/non-nullable-type-assertion-style": "error",
-    "typescript/only-throw-error": "error",
-    "typescript/prefer-includes": "error",
-    "typescript/prefer-nullish-coalescing": "error",
-    "typescript/prefer-optional-chain": "error",
-    "typescript/prefer-promise-reject-errors": "error",
-    "typescript/prefer-reduce-type-parameter": "error",
-    "typescript/prefer-return-this-type": "error",
-    "typescript/promise-function-async": "error",
-    "typescript/related-getter-setter-pairs": "error",
-    "typescript/require-array-sort-compare": "error",
-    "typescript/require-await": "error",
-    "typescript/restrict-plus-operands": "error",
-    "typescript/restrict-template-expressions": "error",
-    "typescript/return-await": "error",
-    "typescript/strict-boolean-expressions": "error",
-    "typescript/switch-exhaustiveness-check": "error",
-    "typescript/unbound-method": "error",
-    "typescript/use-unknown-in-catch-callback-variable": "error",
+    // Style rules worth enforcing
+    "eslint/no-duplicate-imports": "warn",
+    "eslint/sort-imports": "warn",
+    "react-perf/jsx-no-new-object-as-prop": "warn",
+
+    // Disabled noise rules (conflict with modern React/Next.js practices)
+    "react/react-in-jsx-scope": "off", // Obsolete since the JSX transform (React 17+)
+    "react/jsx-props-no-spreading": "off", // Canonical for motion wrapper components
+    "import/no-named-export": "off", // Named exports are idiomatic for tree-shaking
+    "import/prefer-default-export": "off",
+    "import/exports-last": "off",
+    "import/group-exports": "off",
+    "import/no-unassigned-import": "off", // CSS side-effect imports are valid
+    "typescript/consistent-return": "off", // False positive on useEffect cleanup pattern
   },
   settings: {
     next: {
       rootDir: [],
     },
     react: {
+      componentWrapperFunctions: [],
       formComponents: [],
       linkComponents: [],
-      version: "19.2.3",
-      componentWrapperFunctions: [],
-    },
-    jsdoc: {
-      ignorePrivate: false,
-      ignoreInternal: false,
-      ignoreReplacesDocs: true,
-      overrideReplacesDocs: true,
-      augmentsExtendsReplacesDocs: false,
-      implementsReplacesDocs: false,
-      exemptDestructuredRootsFromChecks: false,
-      tagNamePreference: {},
+      version: "19",
     },
     vitest: {
       typecheck: false,
     },
   },
-  env: {
-    builtin: true,
-  },
-  globals: {},
 });

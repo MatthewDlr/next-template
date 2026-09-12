@@ -2,17 +2,20 @@
   "name": "next-template",
   "version": "2",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "oxlint",
-    "lint:agent": "oxlint --format=agent",
+    "lint:agent": "oxlint --deny-warnings --format=agent",
     "lint:fix": "oxlint --fix --fix-suggestions",
+    "lint:ci": "oxlint --quiet",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "test": "vitest",
-    "test:agent": "vitest run --reporter=agent"
+    "test:agent": "vitest run --reporter=agent",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
@@ -46,7 +49,6 @@
     "oxlint-tsgolint": "^7.0.2001",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
-    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^5.0.0",
     "vitest-browser-react": "^2.3.0"
   }

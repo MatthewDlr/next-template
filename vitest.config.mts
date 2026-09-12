@@ -1,16 +1,19 @@
-import react from "@vitejs/plugin-react";
-import { playwright } from "@vitest/browser-playwright";
-import tsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
+import { playwright } from "@vitest/browser-playwright";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  plugins: [tsconfigPaths(), react()],
+  plugins: [react()],
+  resolve: {
+    tsconfigPaths: true,
+  },
   test: {
-    globals: true,
     browser: {
       enabled: true,
-      provider: playwright(),
+      headless: true,
       instances: [{ browser: "chromium" }],
+      provider: playwright(),
     },
+    globals: true,
   },
 });

@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, type MotionProps, type Variants } from "motion/react";
-import { createContext, useContext, useSyncExternalStore, type ReactNode } from "react";
+import { type MotionProps, type Variants, motion } from "motion/react";
+import { type ReactNode, createContext, useContext, useSyncExternalStore } from "react";
 
 function subscribeToReducedMotion(callback: () => void): () => void {
   const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -79,10 +79,12 @@ export const defaultTransition = {
   ease: [0.4, 0, 0.2, 1] as const,
 };
 
+const reducedMotionTransition = { duration: 0.01 };
+
 export const springTransition = {
-  type: "spring" as const,
-  stiffness: 300,
   damping: 30,
+  stiffness: 300,
+  type: "spring" as const,
 };
 
 type MotionDivProps = {
@@ -97,10 +99,9 @@ export function MotionDiv({
   className,
   ...props
 }: MotionDivProps): ReactNode {
-  const prefersReducedMotion = useReducedMotion();
-
-  const activeVariants = prefersReducedMotion ? reducedMotionVariants : variants;
-  const activeTransition = prefersReducedMotion ? { duration: 0.01 } : defaultTransition;
+  const prefersReducedMotion = useReducedMotion(),
+    activeVariants = prefersReducedMotion ? reducedMotionVariants : variants,
+    activeTransition = prefersReducedMotion ? reducedMotionTransition : defaultTransition;
 
   return (
     <motion.div
@@ -122,10 +123,9 @@ export function MotionSection({
   className,
   ...props
 }: MotionDivProps): ReactNode {
-  const prefersReducedMotion = useReducedMotion();
-
-  const activeVariants = prefersReducedMotion ? reducedMotionVariants : variants;
-  const activeTransition = prefersReducedMotion ? { duration: 0.01 } : defaultTransition;
+  const prefersReducedMotion = useReducedMotion(),
+    activeVariants = prefersReducedMotion ? reducedMotionVariants : variants,
+    activeTransition = prefersReducedMotion ? reducedMotionTransition : defaultTransition;
 
   return (
     <motion.section

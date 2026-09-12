@@ -1,5 +1,7 @@
 allowBuilds:
   sharp: true
+minimumReleaseAge: 4320 # 3 days
+blockExoticSubdeps: true
 overrides:
   "@types/react": 19.2.18
   "@types/react-dom": 19.2.4

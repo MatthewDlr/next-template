@@ -1,26 +1,30 @@
 "use client";
 
-import { features } from "@/lib/config";
+import { type ReactNode, useEffect } from "react";
 import Lenis from "lenis";
-import { useEffect, type ReactNode } from "react";
+import { features } from "@/lib/config";
 
 const LENIS_OPTIONS = {
   duration: 1.6,
-  easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  orientation: "vertical" as const,
+  easing: (t: number) => Math.min(1, 1.001 - 2 ** (-10 * t)),
   gestureOrientation: "vertical" as const,
+  orientation: "vertical" as const,
   smoothWheel: true,
-  wheelMultiplier: 1,
   touchMultiplier: 2,
+  wheelMultiplier: 1,
 };
 
 export function SmoothScroll({ children }: { children: ReactNode }): ReactNode {
   useEffect(() => {
-    if (!features.smoothScroll) return;
+    if (!features.smoothScroll) {
+      return;
+    }
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion) {
+      return;
+    }
 
     const lenis = new Lenis(LENIS_OPTIONS);
 
@@ -40,16 +44,24 @@ export function SmoothScroll({ children }: { children: ReactNode }): ReactNode {
     }
 
     function handleAnchorClick(e: MouseEvent): void {
-      if (!isElement(e.target)) return;
+      if (!isElement(e.target)) {
+        return;
+      }
 
       const anchor = e.target.closest('a[href^="#"]');
-      if (anchor === null || !isHTMLAnchorElement(anchor)) return;
+      if (anchor === null || !isHTMLAnchorElement(anchor)) {
+        return;
+      }
 
       const href = anchor.getAttribute("href");
-      if (href === null || href === "#") return;
+      if (href === null || href === "#") {
+        return;
+      }
 
       const element = document.getElementById(href.slice(1));
-      if (element === null) return;
+      if (element === null) {
+        return;
+      }
 
       e.preventDefault();
       lenis.scrollTo(element, { offset: -100 });
