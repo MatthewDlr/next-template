@@ -2,9 +2,9 @@ import "./globals.css";
 
 import { Noto_Sans, Playfair_Display } from "next/font/google";
 
-import type { Metadata } from "next";
-import { Providers } from "./lib/providers";
 import { cn } from "@/lib/utils";
+import { Providers } from "@lib/providers";
+import type { Metadata } from "next";
 
 const playfairDisplayHeading = Playfair_Display({ subsets: ["latin"], variable: "--font-heading" });
 
