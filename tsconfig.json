@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    // Base options
+    /* Base options */
     "target": "ES2024", // ECMAScript target version
     "lib": ["DOM", "DOM.iterable", "ESNext"], // Libraries to include when type-checking.
     "module": "ESNext", // What module syntax to use.
@@ -10,26 +10,26 @@
     "types": ["vitest/globals"],
     "allowJs": true, // Allows JavaScript files to be compiled
 
-    // Strictness
+    /* Strictness */
     "strict": true, // Enables strict type-checking options
     "strictNullChecks": true, // Prevent accessing a variable that may be null or undefined
     "noImplicitAny": true, // Issue an error whenever a variable is inferred as any
     "noUncheckedIndexedAccess": true, // Prevents from accessing an array or object without first checking if it's defined
     "noImplicitOverride": true, // Makes the override keyword actually useful in classes.
 
-    // Module interop
+    /* Module interop */
     "esModuleInterop": true, // Helps mend a few of the fences between CommonJS and ES Modules
     "isolatedModules": true, // Prevents a few TS features which are unsafe when treating files as isolated files
     "verbatimModuleSyntax": true, // Forces to use import type and export type, leading to more predictable behavior and fewer unnecessary imports
     "resolveJsonModule": true, // Allows importing JSON files as modules
 
-    // Build behavior
-    "incremental": true, // Enable incremental builds
+    /* Build behavior */
+    "incremental": true, // Enable incremental builds for faster compilation
     "noEmit": true, // Do not emit compiler output files like JavaScript source code, source-maps or declarations.
     "removeComments": true, // Strips comments from compiled code
     "skipLibCheck": true, // Skips checking the types of .d.ts files
 
-    // Project integration
+    /* Project integration */
     "plugins": [
       {
         "name": "next"
@@ -52,6 +52,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ], // File paths that TypeScript should include in the compilation process
-  "exclude": ["node_modules", ".next", ".git"] // File paths that TypeScript should exclude from the compilation process
+  ],
+  "exclude": ["node_modules", ".next", ".git"]
 }

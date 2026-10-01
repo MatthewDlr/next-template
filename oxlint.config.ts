@@ -1,6 +1,12 @@
 import { defineConfig } from "oxlint";
 
 export default defineConfig({
+  plugins: ["typescript", "react", "nextjs", "vitest", "import"],
+  jsPlugins: ["@shadcn/lint"],
+  options: {
+    typeAware: true,
+    typeCheck: true,
+  },
   categories: {
     correctness: "error",
     pedantic: "off",
@@ -14,24 +20,15 @@ export default defineConfig({
     node: true, // Enables Node environment globals (process)
   },
   globals: {},
-  ignorePatterns: [
-    "dist/**",
-    "build/**",
-    ".next/**",
-    "snapshots/**",
-    "__screenshots__/**",
-    ".next/**",
-    "node_modules/**",
-    "out/**",
-    "next.config.js",
-    "next.config.ts",
-  ],
-  options: {
-    typeAware: true,
-    typeCheck: true,
-  },
-  plugins: ["typescript", "react", "react-perf", "nextjs", "vitest", "import"],
   rules: {
+    // @shadcn/lint rules
+    "shadcn/no-restyle": ["error", { allow: ["layout"] }],
+    "shadcn/no-raw-colors": "error",
+    "shadcn/no-arbitrary-values": "error",
+    "shadcn/no-inline-styles": "error",
+    "shadcn/no-unknown-classes": "error",
+    "shadcn/require-static-classes": "error",
+
     // Enforce App Router usage and prevent Pages Router usage
     "eslint/no-restricted-imports": [
       "error",
@@ -71,10 +68,17 @@ export default defineConfig({
 
     "no-throw-literal": "error", // Stop native throws to enforce the neverthrow pattern
 
-    // Style rules worth enforcing
-    "eslint/no-duplicate-imports": "warn",
-    "eslint/sort-imports": "warn",
-    "react-perf/jsx-no-new-object-as-prop": "warn",
+    "eslint/sort-imports": "off", // Conflicts with oxfmt's sortImports (oxfmt is canonical)
+
+    // Vitest noise rules
+    "vitest/require-mock-type-parameters": "off", // vi.fn() infers from usage/typing; pure friction
+    "vitest/valid-title": "off", // `describe(component)` is an idiomatic component-suite convention
+    "vitest/no-conditional-expect": "off", // Conditional expect is the point of type-narrowing tests
+    "eslint/no-await-in-loop": "off", // Sequential awaits are intended in ordered test assertions
+
+    // TypeScript noise rules
+    "typescript/no-misused-spread": "off", // Spread-of-string is intentional in numeric counters
+    "typescript/consistent-return": "off", // False positive on useEffect cleanup pattern
 
     // Disabled noise rules (conflict with modern React/Next.js practices)
     "react/react-in-jsx-scope": "off", // Obsolete since the JSX transform (React 17+)
@@ -84,9 +88,22 @@ export default defineConfig({
     "import/exports-last": "off",
     "import/group-exports": "off",
     "import/no-unassigned-import": "off", // CSS side-effect imports are valid
-    "typescript/consistent-return": "off", // False positive on useEffect cleanup pattern
   },
+  ignorePatterns: [
+    "dist/**",
+    "build/**",
+    ".next/**",
+    "snapshots/**",
+    "__screenshots__/**",
+    "node_modules/**",
+    "out/**",
+    "next.config.js",
+    "next.config.ts",
+  ],
   settings: {
+    shadcn: {
+      ui: "@/components/ui",
+    },
     next: {
       rootDir: [],
     },
