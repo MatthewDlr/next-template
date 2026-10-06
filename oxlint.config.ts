@@ -9,10 +9,10 @@ export default defineConfig({
   },
   categories: {
     correctness: "error",
-    pedantic: "off",
-    perf: "warn",
-    style: "off",
     suspicious: "warn",
+    perf: "warn",
+    pedantic: "off",
+    style: "off",
   },
   env: {
     browser: true, // Enables web API globals (window, document, fetch)
@@ -21,7 +21,7 @@ export default defineConfig({
   },
   globals: {},
   rules: {
-    // @shadcn/lint rules
+    /* Shadcn linter rules. See https://github.com/shadcn-ui/lint */
     "shadcn/no-restyle": ["error", { allow: ["layout"] }],
     "shadcn/no-raw-colors": "error",
     "shadcn/no-arbitrary-values": "error",
@@ -29,7 +29,15 @@ export default defineConfig({
     "shadcn/no-unknown-classes": "error",
     "shadcn/require-static-classes": "error",
 
-    // Enforce App Router usage and prevent Pages Router usage
+    /* Enabling back some React rules */
+    "react/rules-of-hooks": "error", // Enforce React Hooks to be only called in valid contexts and in the correct order
+    "react/unsupported-syntax": "error", // Syntax that React Compiler does not plan to support
+    "react/jsx-no-useless-fragment": "error", // Fragments that can be replaced with a single child
+    "react/function-component-definition": "error", // Enforce function component definitions to be consistent (arrow functions or function declarations)
+    "react/jsx-no-target-blank": "error", // Anchor tags with target="_blank" that do not have rel="noopener noreferrer" for security reasons
+    "react/no-unescaped-entities": "error", // Warns on unescaped entities in JSX that can lead to unexpected behavior (e.g., <, >, &, etc.)
+
+    /* Enforce App Router usage and prevent Pages Router usage */
     "eslint/no-restricted-imports": [
       "error",
       {
@@ -56,7 +64,7 @@ export default defineConfig({
       },
     ],
 
-    // Auto remove unused imports
+    /* Auto remove unused imports */
     "eslint/no-unused-vars": [
       "error",
       {
@@ -66,21 +74,24 @@ export default defineConfig({
       },
     ],
 
+    /* Neverthrow */
     "no-throw-literal": "error", // Stop native throws to enforce the neverthrow pattern
+    "typescript/only-throw-error": "error", // Only `Error` may be thrown; prefer returning a neverthrow Result
 
-    "eslint/sort-imports": "off", // Conflicts with oxfmt's sortImports (oxfmt is canonical)
-
-    // Vitest noise rules
+    /* Vitest */
     "vitest/require-mock-type-parameters": "off", // vi.fn() infers from usage/typing; pure friction
     "vitest/valid-title": "off", // `describe(component)` is an idiomatic component-suite convention
     "vitest/no-conditional-expect": "off", // Conditional expect is the point of type-narrowing tests
     "eslint/no-await-in-loop": "off", // Sequential awaits are intended in ordered test assertions
 
-    // TypeScript noise rules
-    "typescript/no-misused-spread": "off", // Spread-of-string is intentional in numeric counters
-    "typescript/consistent-return": "off", // False positive on useEffect cleanup pattern
+    /* TypeScript */
+    "typescript/no-explicit-any": "error", // ban `any` that defeats the purpose of TypeScript
+    "typescript/no-non-null-assertion": "error", // Prefer optional chaining or explicit checks over `!`
+    "typescript/consistent-type-assertions": ["error", { assertionStyle: "never" }], // Bans `as` (but allows `as const`)
+    "typescript/no-misused-spread": "off", // Disable spread-of-string is intentional in numeric counters
+    "typescript/consistent-return": "off", // Remove a false positive on useEffect cleanup pattern
 
-    // Disabled noise rules (conflict with modern React/Next.js practices)
+    /* Noise rules (conflict with modern React/Next.js practices) */
     "react/react-in-jsx-scope": "off", // Obsolete since the JSX transform (React 17+)
     "react/jsx-props-no-spreading": "off", // Canonical for motion wrapper components
     "import/no-named-export": "off", // Named exports are idiomatic for tree-shaking
@@ -88,6 +99,7 @@ export default defineConfig({
     "import/exports-last": "off",
     "import/group-exports": "off",
     "import/no-unassigned-import": "off", // CSS side-effect imports are valid
+    "eslint/sort-imports": "off", // Conflicts with Oxfmt's sortImports feature (oxfmt is canonical)
   },
   ignorePatterns: [
     "dist/**",

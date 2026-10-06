@@ -15,7 +15,7 @@
     "fmt:check": "oxfmt --check",
     "test": "vitest",
     "test:agent": "vitest run --reporter=agent",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui --open"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

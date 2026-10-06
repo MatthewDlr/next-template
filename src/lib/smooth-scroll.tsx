@@ -1,8 +1,8 @@
 "use client";
 
-import { type ReactNode, useEffect } from "react";
-import Lenis from "lenis";
 import { features } from "@/lib/config";
+import Lenis from "lenis";
+import { type ReactNode, useEffect } from "react";
 
 const LENIS_OPTIONS = {
   duration: 1.6,
@@ -76,5 +76,5 @@ export function SmoothScroll({ children }: { children: ReactNode }): ReactNode {
     };
   }, []);
 
-  return <>{children}</>;
+  return children;
 }
