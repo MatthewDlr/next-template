@@ -36,9 +36,9 @@ pnpm dev
 - ⚡ **Next.js 16 + React 19**: App Router, Cache Components, PPR, partial prefetching and the React Compiler.
 - 🛡️ **TypeScript 7**: ES2024 target, strict mode, `noUncheckedIndexedAccess` and path aliases.
 - 🎨 **Tailwind 4 + Shadcn**: CSS-first tokens, Lucide icons and shadcn lint rules.
-- <img src="https://oxc.rs/logo-without-border.svg" height="14" alt="" /> **Oxlint**: type-aware linting and AI anti-slop rules. 50x to 100x faster than ESLint.
-- <img src="https://oxc.rs/logo-without-border.svg" height="14" alt="" /> **Oxfmt**: 100 columns, sorted imports and Tailwind classes, around 30x faster than Prettier.
-- <img src="https://vitest.dev/logo-without-border.svg" height="14" alt="" /> **Vitest 5**: the fastest test runner for node.js, with browser mode enabled.
+- <img src="https://oxc.rs/logo-without-border.svg" height="18" alt="" /> **Oxlint**: type-aware linting and AI anti-slop rules. 50x to 100x faster than ESLint.
+- <img src="https://oxc.rs/logo-without-border.svg" height="18" alt="" /> **Oxfmt**: 100 columns, sorted imports and Tailwind classes, around 30x faster than Prettier.
+- <img src="https://vitest.dev/logo-without-border.svg" height="18" alt="" /> **Vitest 5**: the fastest test runner for node.js, with browser mode enabled.
 - 🎬 **Motion + Lenis**: reduced-motion aware primitives and smooth scroll behind a flag.
 - 🤖 **Agentic Development**: Optimized scripts for AI agents.
 - 🔒 **Security**: release age, exotic subdependency block and pinned React types.
