@@ -34,7 +34,7 @@
     "sortScripts": true // Sort script alphabetically
   },
   "sortTailwindcss": {
-    "stylesheet": "./app/globals.css",
+    "stylesheet": "./src/app/globals.css",
     "attributes": ["class", "className"],
     "functions": ["clsx", "cn", "cva", "tw"],
     "preserveWhitespace": true
