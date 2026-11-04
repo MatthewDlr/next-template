@@ -2,6 +2,7 @@
   "name": "next-template",
   "version": "2",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "next dev",
