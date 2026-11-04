@@ -39,9 +39,9 @@ pnpm dev
 - ⚡ **Next.js 16 + React 19**: App Router, Cache Components, PPR, partial prefetching and the React Compiler.
 - 🛡️ **TypeScript 7**: ES2024 target, strict mode, `noUncheckedIndexedAccess` and path aliases.
 - 🎨 **Tailwind 4 + shadcn**: CSS-first tokens, `base-sera` style, Lucide icons and shadcn lint rules.
-- 🚀 **Oxlint**: type-aware rules and the shadcn anti-slop plugin, 50 to 100 times faster than ESLint in upstream benchmarks.
-- 💅 **Oxfmt**: 100 columns, sorted imports and Tailwind classes, around 30 times faster than Prettier in upstream benchmarks.
-- 🧪 **Vitest 5**: the fastest test runner for Vite projects, already running in real Chromium through Playwright.
+- <img src="https://oxc.rs/logo-without-border.svg" height="18" alt="" /> **Oxlint**: type-aware rules and the shadcn anti-slop plugin, 50 to 100 times faster than ESLint in upstream benchmarks.
+- <img src="https://oxc.rs/logo-without-border.svg" height="18" alt="" /> **Oxfmt**: 100 columns, sorted imports and Tailwind classes, around 30 times faster than Prettier in upstream benchmarks.
+- <img src="https://vitest.dev/logo-without-border.svg" height="18" alt="" /> **Vitest 5**: the fastest test runner for Vite projects, already running in real Chromium through Playwright.
 - 🎬 **Motion + Lenis**: reduced-motion aware primitives and smooth scroll behind a flag.
 - 🤖 **Agent-ready**: `lint:agent` and `test:agent` emit compact, machine-friendly output.
 - 🔒 **pnpm guards**: release age, exotic subdependency block and pinned React types.
