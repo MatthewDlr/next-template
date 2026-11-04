@@ -6,7 +6,11 @@
 
 A Next.js 16 starter with Cache Components, PPR and the React Compiler, behind a toolchain that refuses `any`, `as`, `!` and inconsistent shadcn styling.
 
+<!-- The CI badge 404s until the repository is public and the workflow has run once.
+Restore it on the line below when that is true:
 [![CI](https://github.com/MatthewDlr/next-template/actions/workflows/ci.yml/badge.svg)](https://github.com/MatthewDlr/next-template/actions/workflows/ci.yml)
+-->
+
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-16.3.1-black?logo=nextdotjs)](https://nextjs.org)
 [![React](https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=white)](https://react.dev)
