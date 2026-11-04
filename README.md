@@ -2,18 +2,32 @@
 
 # Next.js 16 Template
 
-A starter for Next.js App Router projects: strict TypeScript, type-aware linting, browser tests, and UI primitives that respect reduced motion.
+**Skip the setup. Keep the standards.**
 
+A Next.js 16 starter with Cache Components, PPR and the React Compiler, behind a toolchain that refuses `any`, `as`, `!` and inconsistent shadcn styling.
+
+[![CI](https://github.com/MatthewDlr/next-template/actions/workflows/ci.yml/badge.svg)](https://github.com/MatthewDlr/next-template/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-16.3.1-black?logo=nextdotjs)](https://nextjs.org)
-[![React](https://img.shields.io/badge/React-19.2-61dafb?logo=react&logoColor=white)](https://react.dev)
+[![React](https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=white)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-7-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+
 [![Tailwind](https://img.shields.io/badge/Tailwind-4-06b6d4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Vitest](https://img.shields.io/badge/Vitest-5-6e9f18?logo=vitest&logoColor=white)](https://vitest.dev)
 [![pnpm](https://img.shields.io/badge/pnpm-12-f69220?logo=pnpm&logoColor=white)](https://pnpm.io)
 
-[![CI](https://github.com/MatthewDlr/next-template/actions/workflows/ci.yml/badge.svg)](https://github.com/MatthewDlr/next-template/actions/workflows/ci.yml)
-
 </div>
+
+## Why this template
+
+`create-next-app` gives you a page and a blank slate. The rest, type-aware linting, browser tests, motion that respects user settings, supply-chain defaults, gets rebuilt by hand on every project.
+
+This repository is that setup finished once:
+
+- **Rules with teeth.** No `any`, no `as`, no `!`, no Pages Router imports, no thrown values when a `Result` will do.
+- **Tests in a real browser.** Vitest runs Chromium through Playwright, not a simulated DOM.
+- **Interface defaults.** Motion primitives and smooth scrolling that switch themselves off when the user asks for less motion.
+- **Fewer surprises.** pnpm refuses packages published in the last three days and blocks exotic subdependencies.
 
 ## Quick start
 
@@ -25,55 +39,45 @@ cp .env.example .env.local
 pnpm dev
 ```
 
-The app runs on [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000). The environment file is only needed for the React Bits component registries.
 
-## What is included
+## Feature highlights
 
-Every tool below is configured and wired into the scripts. Nothing is listed in `package.json` without a config that uses it.
+| Area                      | What you get                                                            |
+| ------------------------- | ----------------------------------------------------------------------- |
+| **Next.js 16 + React 19** | App Router, Cache Components, PPR, partial prefetching, React Compiler  |
+| **TypeScript 7**          | ES2024 target, strict mode, `noUncheckedIndexedAccess`, path aliases    |
+| **Tailwind 4 + shadcn**   | CSS-first tokens, `base-sera` style, Lucide icons, component registries |
+| **Oxlint**                | Type-aware rules, shadcn anti-slop plugin, banned escape hatches        |
+| **Oxfmt**                 | 100 columns, sorted imports, sorted Tailwind classes, sorted scripts    |
+| **Vitest 5**              | Chromium via Playwright, headless by default, traces on CI failures     |
+| **Motion + Lenis**        | Reduced-motion aware primitives and smooth scroll behind a flag         |
+| **pnpm guards**           | Release age, exotic subdependency block, pinned React types             |
 
-| Area       | Choice                                         | Config                                  |
-| ---------- | ---------------------------------------------- | --------------------------------------- |
-| Framework  | Next.js 16 App Router, React 19                | `next.config.ts`                        |
-| Rendering  | Cache Components, PPR, partial prefetching     | `next.config.ts`                        |
-| Compiler   | React Compiler enabled                         | `next.config.ts`                        |
-| Language   | TypeScript 7, ES2024 target, strict mode       | `tsconfig.json`                         |
-| Styling    | Tailwind CSS 4, shadcn, CSS variables          | `postcss.config.mjs`, `components.json` |
-| Linting    | Oxlint with type-aware rules and shadcn plugin | `oxlint.config.ts`                      |
-| Formatting | Oxfmt with sorted imports and Tailwind classes | `.oxfmtrc.json`                         |
-| Testing    | Vitest 5 in a real browser                     | `vitest.config.mts`                     |
-| Motion     | Motion primitives with reduced-motion support  | `src/lib/motion.tsx`                    |
-| Scrolling  | Lenis smooth scroll with a feature flag        | `src/lib/smooth-scroll.tsx`             |
-| Themes     | `next-themes` with system default              | `src/lib/providers.tsx`                 |
-| Errors     | `neverthrow` for explicit error handling       | lint rules                              |
-| Packages   | pnpm with release-age and supply-chain guards  | `pnpm-workspace.yaml`                   |
+## The details
 
-## Framework and rendering
+<details>
+<summary><strong>Rendering: Cache Components, PPR and the React Compiler</strong></summary>
 
-The template targets the App Router from the start. `next.config.ts` opts into the features that change how pages are built and cached:
+`next.config.ts` turns on the features that change how the App Router builds and caches:
 
 ```ts
-reactCompiler: true,      // React 19 compiler, no manual memoization
-cacheComponents: true,    // Cache Components
-partialPrefetching: true, // Partial prefetching
-experimental: {
-  useTypeScriptCli: true, // TypeScript 7 CLI for faster checks
-}
+reactCompiler: true,
+cacheComponents: true,
+partialPrefetching: true,
+experimental: { useTypeScriptCli: true },
 ```
 
-Cache Components and PPR mean a page can render a static shell and stream dynamic parts later. The starter ships with this on, so the first component you add is already written for that model instead of being retrofitted later.
+Cache Components and PPR let a route render a static shell and stream the dynamic parts. The starter is written for that model, so you do not have to retrofit it later. React Compiler removes most manual memoization, and Oxlint blocks syntax the compiler does not support.
 
-React Compiler removes the need for `useMemo` and `useCallback` in most cases. The lint config enforces the syntax the compiler supports (`react/unsupported-syntax`).
+</details>
 
-## TypeScript
+<details>
+<summary><strong>TypeScript: strict by default</strong></summary>
 
-`tsconfig.json` is tuned rather than left at the defaults:
+`tsconfig.json` targets ES2024 with `moduleResolution: bundler`, then adds `strict`, `noUncheckedIndexedAccess`, `noImplicitOverride` and `verbatimModuleSyntax`. Type checking runs through the build and through Oxlint, so `pnpm build` fails on a type error.
 
-- `target: ES2024` and `moduleResolution: bundler`.
-- `strict`, plus `noUncheckedIndexedAccess`, `noImplicitOverride` and `noImplicitAny`.
-- `verbatimModuleSyntax` so type-only imports are explicit.
-- `noEmit` and incremental builds, with type checking delegated to the Next.js and Oxlint pipelines.
-
-Path aliases are available everywhere:
+Aliases are available everywhere:
 
 | Alias           | Path               |
 | --------------- | ------------------ |
@@ -85,35 +89,35 @@ Path aliases are available everywhere:
 | `@types/*`      | `src/types/*`      |
 | `@utils/*`      | `src/utils/*`      |
 
-## Styling
+</details>
 
-Tailwind 4 runs through PostCSS, so there is no `tailwind.config.ts` to maintain. Tokens, fonts and theme variables live in `src/app/globals.css`.
+<details>
+<summary><strong>Styling: Tailwind 4 and shadcn</strong></summary>
 
-shadcn is registered in `components.json` with:
+There is no `tailwind.config.ts`. Tailwind 4 runs through PostCSS and reads its tokens from `src/app/globals.css`, which also defines the theme variables.
 
-- `base-sera` style and `taupe` base colour, using CSS variables.
-- Lucide icons.
-- The `@lucide-animated`, `@reactbits-starter` and `@reactbits-pro` registries.
+`components.json` sets the shadcn style to `base-sera` with the `taupe` base colour, CSS variables and Lucide icons. Three registries are registered: `@lucide-animated`, `@reactbits-starter` and `@reactbits-pro`.
 
-The React Bits registries need a licence key. Put it in `.env.local`:
+The React Bits registries need a licence key in `.env.local`:
 
 ```bash
 REACTBITS_LICENSE_KEY=your_key_here
 ```
 
-Add components with the usual CLI:
+Add a component with:
 
 ```bash
 pnpm dlx shadcn@latest add button
 ```
 
-## Linting with Oxlint
+</details>
 
-`oxlint.config.ts` is type-aware (`typeAware` and `typeCheck`), so rules can reason about types, not just syntax. It loads the `typescript`, `react`, `nextjs`, `vitest` and `import` plugins, and treats correctness issues as errors.
+<details>
+<summary><strong>Linting: Oxlint with type awareness and anti-slop rules</strong></summary>
 
-### shadcn anti-slop rules
+`oxlint.config.ts` enables `typeAware` and `typeCheck`, loads the `typescript`, `react`, `nextjs`, `vitest` and `import` plugins, and treats correctness issues as errors.
 
-The `@shadcn/lint` plugin blocks the patterns that make generated UI look inconsistent:
+The `@shadcn/lint` plugin blocks the shortcuts that make generated UI look inconsistent:
 
 | Rule                            | What it prevents                                        |
 | ------------------------------- | ------------------------------------------------------- |
@@ -124,16 +128,17 @@ The `@shadcn/lint` plugin blocks the patterns that make generated UI look incons
 | `shadcn/no-unknown-classes`     | Class names that do not exist                           |
 | `shadcn/require-static-classes` | Dynamically assembled classes that break detection      |
 
-### Code rules that matter
+The rules that shape the codebase:
 
-- `typescript/no-explicit-any`: no `any`.
-- `typescript/no-non-null-assertion`: no `!`.
-- `typescript/consistent-type-assertions` set to `never`: no `as`, except `as const`.
-- `eslint/no-restricted-imports` blocks the Pages Router APIs (`next/router`, `next/head`, `next/document`, `next/app`, `next/error`, `next/amp`).
-- `no-throw-literal` and `typescript/only-throw-error` push errors toward `neverthrow` results instead of thrown values.
-- `eslint/no-unused-vars` removes unused imports automatically when run with `--fix`.
+- `no-explicit-any`, `no-non-null-assertion`, and type assertions set to `never` (so `as const` is the only allowed assertion).
+- `eslint/no-restricted-imports` blocks `next/router`, `next/head`, `next/document`, `next/app`, `next/error` and `next/amp`.
+- `no-throw-literal` and `typescript/only-throw-error` push errors toward `neverthrow` results.
+- `eslint/no-unused-vars` removes unused imports when you run `pnpm lint:fix`.
 
-## Formatting with Oxfmt
+</details>
+
+<details>
+<summary><strong>Formatting: Oxfmt</strong></summary>
 
 `.oxfmtrc.json` keeps the diff surface small:
 
@@ -142,15 +147,18 @@ The `@shadcn/lint` plugin blocks the patterns that make generated UI look incons
 - Tailwind classes sorted inside `class` and `className`, including `clsx`, `cn`, `cva` and `tw` calls.
 - `package.json` scripts sorted alphabetically.
 
-`pnpm fmt` writes the changes; `pnpm fmt:check` fails if anything is unformatted.
+`pnpm fmt` writes the changes. `pnpm fmt:check` fails if anything is unformatted, which is what CI runs.
 
-## Testing with Vitest
+</details>
 
-Tests run in a real Chromium browser through Playwright, not in a simulated DOM. The defaults are set for CI:
+<details>
+<summary><strong>Testing: Vitest in a real browser</strong></summary>
 
-- Browser mode enabled, headless.
-- React plugin and `tsconfigPaths` resolution, so `@/` imports work in tests.
-- Globals enabled (`describe`, `it`, `expect` without imports).
+Tests run in Chromium through Playwright, not in a simulated DOM:
+
+- Browser mode enabled, headless by default.
+- React plugin and `tsconfigPaths`, so `@/` imports resolve in tests.
+- Globals enabled, so `describe`, `it` and `expect` need no import.
 - Playwright traces retained on failure in CI, off locally.
 
 ```bash
@@ -159,11 +167,14 @@ pnpm test:agent  # single run, agent-friendly reporter
 pnpm test:ui     # Vitest UI
 ```
 
-## Motion, scrolling and themes
+</details>
+
+<details>
+<summary><strong>Motion, scrolling and themes</strong></summary>
 
 `src/lib/motion.tsx` exports `MotionDiv`, `MotionSection`, `StaggerContainer` and `StaggerItem`, plus shared variants and transitions. A `ReducedMotionProvider` reads `prefers-reduced-motion` through `useSyncExternalStore`, so every primitive switches to a near-instant transition when the user asks for less motion.
 
-`src/lib/smooth-scroll.tsx` mounts Lenis and skips it entirely when `prefers-reduced-motion` is set. It is also behind a flag:
+`src/lib/smooth-scroll.tsx` mounts Lenis and skips it entirely when reduced motion is requested. It is also behind a flag:
 
 ```ts
 // src/lib/config.ts
@@ -174,14 +185,19 @@ export const features = {
 
 `src/lib/providers.tsx` composes the theme provider (system default, class attribute, no transition on change), the reduced-motion provider and smooth scroll in one place.
 
-## Package management
+</details>
 
-`pnpm-workspace.yaml` is used as the pnpm settings file:
+<details>
+<summary><strong>Package management: pnpm with supply-chain guards</strong></summary>
 
-- `minimumReleaseAge: 4320` (three days) so a freshly published package cannot land in the repo immediately.
-- `blockExoticSubdeps` to keep transitive dependencies on the public registry.
-- `allowBuilds` limited to `sharp`.
-- `overrides` pinning the React type packages.
+`pnpm-workspace.yaml` doubles as the pnpm settings file:
+
+- `minimumReleaseAge: 4320`: a package must be three days old before pnpm installs it.
+- `blockExoticSubdeps`: transitive dependencies must come from the public registry.
+- `allowBuilds`: only `sharp` may run install scripts.
+- `overrides`: the React type packages are pinned.
+
+</details>
 
 ## Project structure
 
@@ -238,18 +254,12 @@ export const features = {
 
 The job is named `Format, lint and build`. Make it required in Settings → Branches (or Rulesets) so a pull request cannot merge while it is red.
 
-## Agent workflow
+## Working with an agent
 
-`AGENTS.md` describes how an agent should work in this repository:
-
-1. **Plan** the component tree, deciding what renders on the server and what needs the client.
-2. **Implement** in small steps, running the formatter, linter and scoped tests after each one.
-3. **Test** the finished feature, then run the full gate before handing it back.
-
-It also lists the code conventions the linter enforces, the path aliases, and where each kind of file belongs.
+`AGENTS.md` defines the loop: plan the component tree and decide what renders on the server, implement in small steps while running the checks, then test the finished feature. It also lists the conventions the linter enforces and where each kind of file belongs.
 
 > [!NOTE]
-> The skills listed in `AGENTS.md` are not complete yet. Treat that list as a starting point, not a catalogue. More entries will be added as the workflow matures.
+> The skills listed in `AGENTS.md` are not complete yet. Treat the list as a starting point, not a catalogue. More entries will be added as the workflow matures.
 
 ## Renaming the template
 
@@ -262,8 +272,20 @@ It also lists the code conventions the linter enforces, the path aliases, and wh
 > git remote set-url origin https://github.com/<you>/<new-name>.git
 > ```
 >
-> Then update the `"name"` field in `package.json` and the title at the top of this file. If you started from **Use this template**, your repository already has a fresh history with a single commit.
+> Then update the `"name"` field in `package.json`, the title at the top of this file, and the metadata in `src/app/layout.tsx`. If you started from **Use this template**, your repository already has a fresh history with a single commit.
 
-## Before publishing
+## Contributing
 
-This template does not ship a `LICENSE` file. Add one that matches how you want others to use your work, and update the author metadata in `src/app/layout.tsx`.
+Issues and pull requests are welcome. Before opening a pull request, run the same checks as CI:
+
+```bash
+pnpm fmt:check
+pnpm lint:ci
+pnpm build
+```
+
+Keep a pull request focused on one change, and describe the behaviour that changed rather than the files you touched.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
