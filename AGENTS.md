@@ -89,7 +89,10 @@ Set of rules that all agents must follow at all times.
 - Functions: formatCurrency, validateEmail, getUserById instead of handleStuff, getUserFromDb, validateEmailRegex.
 - Props: isPaid, hasAccess, canEdit for booleans; avoid ambiguous names like flag, status when they encode multiple meanings.
 
-**Small, single‑responsibility units**: A function, hook, component or module should have one reason to change.
+**Implementation should be at the leaves (Open/Closed):** For any requirement, identify what is likely to change, the _how we do it_ and push that decision as far down the call graph as possible, behind a single seam. Everything above that seam must be able to survive the change untouched. If the implementation change but keep behavior intact, the tests should still pass.
+
+**Agent File:** This is a living document that should be updated when you, the agent, makes mistakes.
+If the user corrects you, spot an issue in your process, you're allowed to edit the `Failure Log` section of this file to document the event (not the global`Agent.md`, the one in the project).
 
 ### TypeScript
 
@@ -115,9 +118,21 @@ For writing advanced types, gather all best practices and coding guidelines, loa
 
 ## React
 
-**Contexts:** React contexts are exceptions, app should contain no more than one at the root that hold global information such as `auth, theme, user, preferences` and so on. No context for a single feature or just for passing props downward. Exceptions for libs like Motion, GSAP, Shadcn that are allowed to spawn their own context.
+### Context
 
-**Compiler:** React compiler is on in this project, meaning that `useMemo` and `useCallback` becomes hardly necessary.
+Context is very tempting to use! However, this also means it’s too easy to overuse it. Just because you need to pass some props several levels deep doesn’t mean you should put that information into context.
+
+Here’s a few alternatives you should consider before using context:
+
+- Start by passing props. If your components are not trivial, it’s not unusual to pass a dozen props down through a dozen components. It may feel like a slog, but it makes it very clear which components use which data!
+- Extract components and pass JSX as children to them. If you pass some data through many layers of intermediate components that don’t use that data (and only pass it further down), this often means that you forgot to extract some components along the way.
+
+If neither of these approaches works well for you, consider context.
+Use cases for context: Theming, Auth, Routing, Managing state
+
+### Compiler
+
+React compiler is on in this project, meaning that `useMemo` and `useCallback` becomes hardly necessary.
 
 ## Skills
 
