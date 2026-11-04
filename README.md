@@ -4,7 +4,7 @@
 
 **Skip the setup. Keep the standards.**
 
-A Next.js 16 starter with Cache Components, PPR and the React Compiler, behind a toolchain that refuses `any`, `as`, `!` and inconsistent shadcn styling.
+Opinionated Next.js 16 starter with Cache Components, PPR and the React Compiler
 
 <!-- The CI badge 404s until the repository is public and the workflow has run once.
 Restore it on the line below when that is true:
@@ -22,16 +22,7 @@ Restore it on the line below when that is true:
 
 </div>
 
-## Why this template
-
-`create-next-app` gives you a page and a blank slate. The rest, type-aware linting, browser tests, motion that respects user settings, supply-chain defaults, gets rebuilt by hand on every project.
-
-This repository is that setup finished once:
-
-- **Rules with teeth.** No `any`, no `as`, no `!`, no Pages Router imports, no thrown values when a `Result` will do.
-- **Tests in a real browser.** Vitest runs Chromium through Playwright, not a simulated DOM.
-- **Interface defaults.** Motion primitives and smooth scrolling that switch themselves off when the user asks for less motion.
-- **Fewer surprises.** pnpm refuses packages published in the last three days and blocks exotic subdependencies.
+This template is an opinionated Next.js 16 starter that includes Cache Components, PPR, and the React Compiler. It's designed to provide a solid foundation for building modern web applications with a focus on performance, type safety, and developer experience.
 
 ## Quick start
 
@@ -43,20 +34,17 @@ cp .env.example .env.local
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The environment file is only needed for the React Bits component registries.
-
 ## Feature highlights
 
-| Area                      | What you get                                                            |
-| ------------------------- | ----------------------------------------------------------------------- |
-| **Next.js 16 + React 19** | App Router, Cache Components, PPR, partial prefetching, React Compiler  |
-| **TypeScript 7**          | ES2024 target, strict mode, `noUncheckedIndexedAccess`, path aliases    |
-| **Tailwind 4 + shadcn**   | CSS-first tokens, `base-sera` style, Lucide icons, component registries |
-| **Oxlint**                | Type-aware rules, shadcn anti-slop plugin, banned escape hatches        |
-| **Oxfmt**                 | 100 columns, sorted imports, sorted Tailwind classes, sorted scripts    |
-| **Vitest 5**              | Chromium via Playwright, headless by default, traces on CI failures     |
-| **Motion + Lenis**        | Reduced-motion aware primitives and smooth scroll behind a flag         |
-| **pnpm guards**           | Release age, exotic subdependency block, pinned React types             |
+- ⚡ **Next.js 16 + React 19**: App Router, Cache Components, PPR, partial prefetching and the React Compiler.
+- 🛡️ **TypeScript 7**: ES2024 target, strict mode, `noUncheckedIndexedAccess` and path aliases.
+- 🎨 **Tailwind 4 + shadcn**: CSS-first tokens, `base-sera` style, Lucide icons and shadcn lint rules.
+- 🚀 **Oxlint**: type-aware rules and the shadcn anti-slop plugin, 50 to 100 times faster than ESLint in upstream benchmarks.
+- 💅 **Oxfmt**: 100 columns, sorted imports and Tailwind classes, around 30 times faster than Prettier in upstream benchmarks.
+- 🧪 **Vitest 5**: the fastest test runner for Vite projects, already running in real Chromium through Playwright.
+- 🎬 **Motion + Lenis**: reduced-motion aware primitives and smooth scroll behind a flag.
+- 🤖 **Agent-ready**: `lint:agent` and `test:agent` emit compact, machine-friendly output.
+- 🔒 **pnpm guards**: release age, exotic subdependency block and pinned React types.
 
 ## The details
 
@@ -100,13 +88,7 @@ Aliases are available everywhere:
 
 There is no `tailwind.config.ts`. Tailwind 4 runs through PostCSS and reads its tokens from `src/app/globals.css`, which also defines the theme variables.
 
-`components.json` sets the shadcn style to `base-sera` with the `taupe` base colour, CSS variables and Lucide icons. Three registries are registered: `@lucide-animated`, `@reactbits-starter` and `@reactbits-pro`.
-
-The React Bits registries need a licence key in `.env.local`:
-
-```bash
-REACTBITS_LICENSE_KEY=your_key_here
-```
+`components.json` sets the shadcn style to `base-sera` with the `taupe` base colour, CSS variables and Lucide icons. The `@lucide-animated` registry is registered out of the box.
 
 Add a component with:
 
@@ -118,6 +100,8 @@ pnpm dlx shadcn@latest add button
 
 <details>
 <summary><strong>Linting: Oxlint with type awareness and anti-slop rules</strong></summary>
+
+Oxlint is written in Rust. Upstream benchmarks put it 50 to 100 times faster than ESLint with the same rules, while the type-aware mode here also runs the type checks through `oxlint-tsgolint`.
 
 `oxlint.config.ts` enables `typeAware` and `typeCheck`, loads the `typescript`, `react`, `nextjs`, `vitest` and `import` plugins, and treats correctness issues as errors.
 
@@ -144,6 +128,8 @@ The rules that shape the codebase:
 <details>
 <summary><strong>Formatting: Oxfmt</strong></summary>
 
+Oxfmt is the formatter from the same Rust project. Upstream benchmarks put it around 30 times faster than Prettier.
+
 `.oxfmtrc.json` keeps the diff surface small:
 
 - 100 character lines, 2 space indentation, double quotes, trailing commas.
@@ -158,7 +144,7 @@ The rules that shape the codebase:
 <details>
 <summary><strong>Testing: Vitest in a real browser</strong></summary>
 
-Tests run in Chromium through Playwright, not in a simulated DOM:
+Vitest reuses Vite's transform pipeline instead of compiling a separate test bundle, which makes it the fastest test runner for Vite projects. Browser mode is already configured, so tests run in Chromium through Playwright, not in a simulated DOM:
 
 - Browser mode enabled, headless by default.
 - React plugin and `tsconfigPaths`, so `@/` imports resolve in tests.
@@ -258,9 +244,16 @@ export const features = {
 
 The job is named `Format, lint and build`. Make it required in Settings → Branches (or Rulesets) so a pull request cannot merge while it is red.
 
-## Working with an agent
+## Built for agents
 
-`AGENTS.md` defines the loop: plan the component tree and decide what renders on the server, implement in small steps while running the checks, then test the finished feature. It also lists the conventions the linter enforces and where each kind of file belongs.
+Every check has a non-interactive, machine-friendly entry point, so an agent does not have to parse a watch UI or a human report:
+
+- **`AGENTS.md`** defines the loop: plan the component tree and decide what renders on the server, implement in small steps while running the checks, then test the finished feature. It also lists the conventions the linter enforces and where each kind of file belongs.
+- **`pnpm lint:agent`** runs Oxlint with warnings treated as errors and the `agent` reporter, which returns compact diagnostics instead of the default human format.
+- **`pnpm test:agent`** runs Vitest once with the `agent` reporter, built for machine consumption rather than the interactive UI.
+- **`pnpm fmt:check`** is the non-interactive formatting check for agents that should not rewrite files.
+
+They run the same tools as the CI gate, with output shaped for an agent instead of a terminal UI.
 
 > [!NOTE]
 > The skills listed in `AGENTS.md` are not complete yet. Treat the list as a starting point, not a catalogue. More entries will be added as the workflow matures.
